@@ -131,7 +131,7 @@ bruh11.Parent = bruh9
 local key = "Reflex-g262847Ghgrsfdshy55576"
 
 bruh6.MouseButton1Click:Connect(function()
-  setclipboard("Put Ad Link Here to get copied") 
+  setclipboard("t gay") 
 end)
 
 bruh9.MouseButton1Click:Connect(function()
