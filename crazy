@@ -128,7 +128,7 @@ bruh11.Thickness = 2
 bruh11.Parent = bruh9
 
 
-local key = "Reflex-y25suat37WavMyzeTztlXWRwPhZXipdevvvvvvvv"
+local key = "Reflex-g262847Ghgrsfdshy55576"
 
 bruh6.MouseButton1Click:Connect(function()
   setclipboard("Put Ad Link Here to get copied") 
