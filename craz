@@ -16909,14 +16909,6 @@ do --// Connections
                         end;
                     end;
 
-                    do --// Landmines
-                        Connections.LandMineAdded = Workspace.AiZones.OutpostLandmines.ChildAdded:Connect(function(v)
-                            if Library.Flags.RemoveOutpostMines and Library.Flags.RemoveOutpostMines.Value then
-                                v:Destroy();
-                            end;
-                        end)
-                    end;
-
                     do --// Custom ESP Objects 
                         do --// Main
                             if GameName == "Project Delta" then                     
