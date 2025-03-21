@@ -15740,71 +15740,6 @@ do --// Loops
                     end;
                 end;
         
-                do --// Custom Objects
-                    for Object, Data in next, CustomObjects do
-                        task.spawn(function()
-                            if tick() - Data.LastTick > (Library.Flags.MSDelay.Value / 10000) then
-                                Data.LastTick = tick()
-        
-                                local CustomName = Data.CustomName
-                                local Flag = Data.Flag
-                                local Main = Data.Main
-        
-                                --local CanShow = not CustomChecks or CustomChecks(Object)
-                                local CanShow = false;
-                                if Data.CustomChecks then 
-                                    CanShow = Data.CustomChecks(Object);
-                                else 
-                                    CanShow = true;
-                                end;
-        
-                                if Object and Library.Flags[Flag] and Library.Flags[Flag].Value and CanShow then
-                                    if type(CustomName) == "function" then
-                                        if (Data.TextUpdate and tick() - Data.LastTextUpdate > Data.TextUpdate) or not Data.TextUpdate then
-                                            CustomName = Data.CustomName(Object)
-                                            Data.LastText = CustomName
-                                            Data.LastTextUpdate = tick()
-                                        else
-                                            CustomName = Data.LastText or ""
-                                        end
-                                    end
-        
-                                    local Position = Data.GetPosition(Object)
-                                    if Position then
-                                        local Distance = (Camera.CFrame.p - Position).Magnitude
-                                        Distance = Distance / DistanceConversions[PreferredDistances[GameName]].Conversion
-        
-                                        if Distance <= Library.Flags.CustomDistance.Value then
-                                            local Pos, IsOnScreen = Camera:WorldToViewportPoint(Position)
-        
-                                            Main.Visible = IsOnScreen
-                                            if Main.Visible then
-                                                Main.FontFace = Library.Flags.WorldFont.Value == "Smallest Pixel" and Library.SmallFont or Library.MenuFont
-                                                Main.TextSize = Library.Flags.WorldFont.Value == "Smallest Pixel" and Library.SmallSize or Library.TextSize
-                                                Main.Text = CustomName
-                                                Main.TextColor3 = Library.Flags[Data.Color].Color
-                                                Main.Position = UDim2.new(0, Pos.X, 0, Pos.Y)
-        
-                                                Main.TextTransparency = Library.Flags.FadeObjects and Library.Flags.FadeObjects.Value and Visuals:Map(Distance, 0, Library.Flags.CustomDistance.Value + 40, 0, 1) or 0
-        
-                                                if Object.Name == "Backpack" then
-                                                    Main.TextXAlignment = Enum.TextXAlignment.Left
-                                                end
-                                            end
-                                        else
-                                            Main.Visible = false
-                                        end
-                                    else
-                                        Main.Visible = false
-                                    end
-                                else
-                                    Main.Visible = false
-                                end
-                            end 
-                        end);
-                    end
-                end;
-        
                 do --// Custom items like grenades, mines, etc
                     ESPConstructor:UpdateItems();
                 end;
@@ -17982,21 +17917,6 @@ do --// UI setup
 
                                 Quests:Toggle({Name = "Quest locations", Flag = "ESPQuests"}):Colorpicker({Name = "Quests Color", Flag = "QuestsColor", Default = Color3.fromRGB(0, 255, 255)});
                                 Quests:Multidropdown({Max = #QuestOptions, Flag = "AllowedQuests", Name = "Quests", Options = QuestOptions})
-                            end;
-
-                            local ItemFilter = ESPTab:NewSection({Name = "Item filter", Side = "Right"}); do 
-                                local ItemsList = ReplicatedStorage.ItemsListLocal:GetChildren(); 
-                                local ItemTable = {};
-
-                                for Index, Value in next, ItemsList do 
-                                    table.insert(ItemTable, Value.Name)
-                                end;
-                                
-                                ItemFilter:Toggle({Name = "Filter items", Flag = "FilterItems"});
-                                ItemFilter:Toggle({Name = "Filter corpses", Flag = "FilterCorpses"});
-                                ItemFilter:Toggle({Name = "Apply to inventory viewer", Flag = "FilterPlayers"});
-
-                                ItemFilter:Searchbar({Name = "Filtered items", Flag = "FilteredItems", Options = ItemTable, Max = #ItemTable})
                             end;
 
                             local WorldESPSection = ESPTab:NewSection({Name = "ESP", Side = "Left"}); do 
